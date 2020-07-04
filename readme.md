@@ -1,0 +1,1 @@
+This is a coding quiz that stores high scores to local storage on your machine
