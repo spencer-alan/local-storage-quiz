@@ -45,21 +45,27 @@ let questions = [
   }
 ];
 let questionPosition = 0;
-
+let timer = document.querySelector('#timer');
 
 
 // This will start the quiz and the timer
 start.addEventListener('click', function(event){
   // Function to start timer
-  let timer = document.querySelector('#timer');
   let time = 75;
-
+  let countdown = setInterval(function(){
+    timer.innerHTML = time;
+    time--;
+    if (time < 0){
+      clearInterval(countdown);
+      highscoreForm();
+    }
+  }, 1000);
   return renderQuestions()
 });
 
 // This function renders the questions on the page 
-function renderQuestions(){
-  if (questionPosition >= questions.length){
+// function renderQuestions(){
+//   if (questionPosition >= questions.length){
     
-  }
-}
+//   }
+// }
