@@ -5,9 +5,7 @@ let endForm = document.querySelector('#end-form');
 let submit = document.querySelector('#save-score');
 let remove = document.querySelector('#delete-score');
 let initial = document.querySelector('#initial');
-
-let questions = [question1, question2, question3, question4, question5]
-let qustion1 = {
+let question1 = {
   question: 'The link to external CSS files in HTML goes inside the __________ tag. ',
   a: '<body>',
   b: '<section>',
@@ -40,21 +38,30 @@ let question4 = {
   answer: 'c',
 };
 let question5 = {
-  question: 'Which header element has the smallest font by default?.',
+  question: 'Which header element has the smallest font by default?',
   a: '<h1>',
   b: '<h2>',
   c: '<h3>',
   d: '<h4>',
   answer: 'd',
 };
+let questions = [question1, question2, question3, question4, question5];
 let i = 0;
 let timer = document.querySelector('#timer');
 let time = 10;
-let timeScore = time.value;
+let score = 0;
 
+// console.log('elements', {
+//   main: main,
+//   start: start,
+//   quiz: quiz,
+//   end: endForm,
+//   submit: submit,
+//   remove: remove,
+//   initial: initial
+// });
 
-
-  function startTimer(){
+function startTimer(){
   // this starts the timer
   let countdown = setInterval(function(){
     timer.innerHTML = time;
@@ -68,48 +75,66 @@ let timeScore = time.value;
 
 // renders the questions on the page 
 function renderQuestions(){
-  if (i > questions.length){
-    quiz.innerHTML = `Quiz Finished! Your score is ${time}.`;
+  console.log('entered render questions');
+  for (i; i < questions.length; i++){
+    if (i > questions.length){
+     quiz.innerHTML = `Quiz Finished! Your score is ${time}.`
     if (endForm.style.display === 'none'){
-      endForm.style.display = 'block';
-    } else {
-      endForm.style.display = 'none';
+      endForm.style.display = block;
     }
-      for (let i = 0; i < question.length; i++){
+    // else {
+    //   endForm.style.display = 'none';
+    //   };
+    }
+      let btnContainer = document.createElement('div');
+      let button1 = document.createElement('button');
+      let button2 = document.createElement('button');
+      let button3 = document.createElement('button');
+      let button4 = document.createElement('button');
+      btnContainer.setAttribute('class', 'button-container');
       quiz.innerHTML = questions[i].question;
-      button1 = document.createElement('<button>');
+      quiz.append(btnContainer);
+
+      btnContainer.append(button1);
+      button1.setAttribute('value', 'a');
+      button1.setAttribute('class', 'btn btn-primary buttons');
       button1.textContent = questions[i].a;
-      quiz.append(button1);
-      button2 = document.createElement('<button>');
+
+      btnContainer.append(button2);
+      button2.setAttribute('value', 'b');
+      button2.setAttribute('class', 'btn btn-primary buttons');
       button2.textContent = questions[i].b;
-      quiz.append(button2);
-      button3 = document.createElement('<button>');
+
+      btnContainer.append(button3);
+      button3.setAttribute('value', 'c');
+      button3.setAttribute('class', 'btn btn-primary buttons');
       button3.textContent = questions[i].c;
-      quiz.append(button3);
-      button4 = document.createElement('<button>');
+      
+      btnContainer.append(button4);
+      button4.setAttribute('value', 'd');
+      button4.setAttribute('class', 'btn btn-primary buttons');
       button4.textContent = questions[i].d;
-      quiz.append(button4);
-    }
+      
+      return document.querySelectorAll('.buttons').forEach(item => {
+        item.addEventListener('click', function(event){
+        if (item.value === questions[i].answer){
+          i++;
+          score++;
+          renderQuestions();
+          console.log(score);
+        } else
+        i++;
+        renderQuestions();
+        //checkAnswer();
+      })
+    })
   }
 }
-  // function checkAnswer(){
-  //   // use getElementsByName because we have an array which it will loop through
-  //   choices = document.getElementsByName("choices");
-  //   for(let i = 0; i < choices.length; i++){
-  //     if(choices[i].checked){
-  //       choice = choices[i].value;
-  //     }
-  //   }
-  //   // checks if answer matches the correct choice
-  //   if(choice == questions[i].answer){
-  //     //each time there is a correct answer this value increases
-  //     correct++;
-  //   }
-  //   // changes position of which character user is on
-  //   pos++;
-  //   // then the renderQuestion function runs again to go to next question
-  //   renderQuestion();
-  
+// function checkAnswer(){
+//   console.log('entered check answer');
+//   i++;
+//   console.log(i);
+// }
 
 // This will start the timer
 start.addEventListener('click', startTimer);
@@ -123,4 +148,4 @@ submit.addEventListener('click', function(event) {
 // this should clear local storage
 remove.addEventListener('click', function(event) {
   localStorage.clear();
-});
+})

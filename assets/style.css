@@ -26,3 +26,15 @@ body {
 #end-form{
   display: none;
 }
+#right{
+  display: none;
+  font-size: 75px;
+  font-style: italic;
+  font-weight: bold;
+}
+#wrong{
+  display: none;
+  font-size: 75px;
+  font-style: italic;
+  font-weight: bold;
+}

@@ -23,13 +23,13 @@
       </div>
     </nav>
     <div class='clearfix container'>
-      <p class='timer-words'>Timer: <span id='timer'>0</span></p>
+      <p class='timer-words'>Timer: <span id='timer'>75</span></p>
     </div>
     <main role='main' id='main' class='container'>
      
       <div id='quiz' class='container'>
         <h1>Code Quiz Instructions</h1>
-        <p class='lead'>Welcome to the Code Quiz! When you click the 'Start' button, you will have 75 seconds to answer 5 questions about coding. If you answer a question right, you will be presented with the next question. If you answer a question wrong however, you will be presented with the next question and you will lose 15 seconds off the timer. 
+        <p class='lead'>Welcome to the Code Quiz! When you click the 'Start' button, you will have 25 seconds to answer 5 questions about coding. If you answer a question right, you will be presented with the next question. If you answer a question wrong however, you will just be presented with the next question. 
           <br><br> 
           When you are finished with the Quiz, you will be asked to enter your name and submit your high score to track your progress against yourself or other people who play.
           <br><br><span id='luck'>GOOD LUCK!</span>
@@ -41,6 +41,14 @@
         <input type='text' id='initial' name='initials'></input><br><br>
         <button id='save-score' class='btn btn-primary'>Submit Score</button>
         <button id='delete-score' class='btn btn-danger'>Reset Scores</button>
+      </div>
+      <div id='right' class='container'>
+        <hr>
+        <p>Nice!</p>
+      </div>
+      <div id='wrong' class='container'>
+        <hr>
+        <p>Whoops!</p>
       </div>
     </main><!-- /.container -->
 
