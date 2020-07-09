@@ -2,7 +2,6 @@ let main = document.querySelector('#main');
 let start = document.querySelector('#start');
 let quiz = document.querySelector('#quiz');
 let endForm = document.querySelector('#end-form');
-let submit = document.querySelector('#save-score');
 let remove = document.querySelector('#delete-score');
 let initial = document.querySelector('#initial');
 let question1 = {
@@ -48,7 +47,7 @@ let question5 = {
 let questions = [question1, question2, question3, question4, question5];
 let i = 0;
 let timer = document.querySelector('#timer');
-let time = 10;
+let time = 25;
 let score = 0;
 
 // console.log('elements', {
@@ -66,7 +65,7 @@ function startTimer(){
   let countdown = setInterval(function(){
     timer.innerHTML = time;
     time--;
-    if (time < 0){
+    if (time < 0 || questions[i] === questions[4]){
       clearInterval(countdown);
     }
   }, 1000);
@@ -75,17 +74,8 @@ function startTimer(){
 
 // renders the questions on the page 
 function renderQuestions(){
-  console.log('entered render questions');
+  console.log('entered render questions', i);
   for (i; i < questions.length; i++){
-    if (i > questions.length){
-     quiz.innerHTML = `Quiz Finished! Your score is ${time}.`
-    if (endForm.style.display === 'none'){
-      endForm.style.display = block;
-    }
-    // else {
-    //   endForm.style.display = 'none';
-    //   };
-    }
       let btnContainer = document.createElement('div');
       let button1 = document.createElement('button');
       let button2 = document.createElement('button');
@@ -117,35 +107,77 @@ function renderQuestions(){
       
       return document.querySelectorAll('.buttons').forEach(item => {
         item.addEventListener('click', function(event){
-        if (item.value === questions[i].answer){
+          if (item.value === questions[i].answer){
+            score++;
+            console.log(score);
+            if (questions[i] === questions[4]) { 
+              console.log('entered final form');
+              return finalForm();
+            } 
+            i++;
+            renderQuestions(); 
+          }
+
+          else {
+            if (questions[i] === questions[4]) { 
+            console.log('entered final form');
+            return finalForm();
+            }
           i++;
-          score++;
           renderQuestions();
-          console.log(score);
-        } else
-        i++;
-        renderQuestions();
-        //checkAnswer();
+          }
       })
     })
   }
 }
-// function checkAnswer(){
-//   console.log('entered check answer');
-//   i++;
-//   console.log(i);
-// }
 
 // This will start the timer
 start.addEventListener('click', startTimer);
 // This will start to render questions
 start.addEventListener('click', renderQuestions);
-// This should store the initials and the time when the quiz stopped
-submit.addEventListener('click', function(event) {
-  localStorage.setItem('initials', initial);
-  localStorage.setItem('score', timeScore);
-});
-// this should clear local storage
-remove.addEventListener('click', function(event) {
-  localStorage.clear();
-})
+
+function finalForm() {
+  let btnContainer = document.createElement('div');
+  let submit = document.createElement('button');
+  let reset = document.createElement('button');
+  let initialInput = document.createElement('input');
+  let instructions = document.createElement('p');
+  
+  quiz.innerHTML = `Finished! your score was ${score}.`;
+  quiz.append(instructions);
+  instructions.innerHTML = 'Please enter your intials to see if you have the highest score:';
+  instructions.setAttribute('class', 'lead');
+  quiz.append(initialInput);
+  quiz.append(btnContainer);
+
+  btnContainer.append(submit);
+  submit.setAttribute('class', 'btn btn-primary buttons');
+  submit.textContent = 'Submit Score';
+
+  btnContainer.append(reset);
+  reset.setAttribute('class', 'btn btn-danger buttons');
+  reset.textContent = 'Remove Scores';
+
+  // This should store the initials and the time when the quiz stopped
+  submit.addEventListener('click', function(event) {
+    event.preventDefault();
+    let player = {
+      name: initialInput.value.trim(),
+      score: score
+    };
+    if (player.name === '') {
+      alert('Whoops! Please enter your initials.');
+    } else if (score < JSON.parse(localStorage.getItem(player.score))){
+     alert('Nice Try! But your score is not the highest')
+    } else {
+    localStorage.setItem('player', JSON.stringify(player));
+    alert('Congrats! You have the new High Score!');
+    }
+  });
+  // this should clear local storage
+  reset.addEventListener('click', function(event) {
+    localStorage.clear();
+  });
+}
+
+
