@@ -5,7 +5,9 @@ This is a coding quiz that keeps score and then puts your initials and stores th
 ---
 
 Here is the link to the repository:
+
 [Github Repo](https://github.com/spencer-alan/local-storage-quiz)
+
 [Github Page](https://spencer-alan.github.io/local-storage-quiz/)
 
 ---
